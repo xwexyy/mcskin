@@ -1,21 +1,14 @@
-# Playwright resmi image (Chromium hazır)
-FROM mcr.microsoft.com/playwright:v1.45.0-jammy
+FROM python:3.10-slim
 
-# Çalışma dizini
 WORKDIR /app
 
-# Package dosyalarını kopyala
-COPY package.json package-lock.json* ./
+COPY requirements.txt .
 
-# Node modüllerini kur
-RUN npm install
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Tüm dosyaları ekle
+# Playwright tarayıcıları indir
+RUN playwright install --with-deps chromium
+
 COPY . .
 
-# Railway için port önemli değil — Express yok
-# Ama image standardı için ekliyoruz
-EXPOSE 3000
-
-# Botu başlat
-CMD ["npm", "start"]
+CMD ["python", "main.py"]
