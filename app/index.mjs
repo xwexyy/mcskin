@@ -2,6 +2,8 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { CONFIG } from './config.mjs';
 import { api } from './http.mjs';
 import { log, error } from './logger.mjs';
+import { connectGateway } from './presence.mjs';
+connectGateway();
 
 async function checkVanity(code) {
   const start = performance.now();
